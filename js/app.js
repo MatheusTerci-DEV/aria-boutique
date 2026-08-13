@@ -1,6 +1,3 @@
-Exit code: 0
-Wall time: 2.6 seconds
-Output:
 (function () {
   "use strict";
 
@@ -94,7 +91,7 @@ Output:
     try {
       localStorage.setItem(key, JSON.stringify(value));
     } catch (error) {
-      showToast("NÃ£o foi possÃ­vel salvar a seleÃ§Ã£o neste navegador.");
+      showToast("Não foi possível salvar a seleção neste navegador.");
     }
   }
 
@@ -130,14 +127,14 @@ Output:
       return `
         <article class="product-card" style="--card-index:${index}">
           <div class="product-media">
-            <button class="product-image-button" type="button" data-action="quick-view" data-id="${product.id}" aria-label="VisualizaÃ§Ã£o rÃ¡pida de ${product.name}">
+            <button class="product-image-button" type="button" data-action="quick-view" data-id="${product.id}" aria-label="Visualização rápida de ${product.name}">
               <img src="${product.image}" alt="${product.alt}" loading="${index > 3 ? "lazy" : "eager"}" style="--object-position:${product.position || "center top"}">
             </button>
             <span class="product-badge">Novo</span>
             <button class="favorite-button${favorite ? " is-favorite" : ""}" type="button" data-action="favorite" data-id="${product.id}" aria-label="${favorite ? "Remover" : "Adicionar"} ${product.name} ${favorite ? "dos" : "aos"} favoritos" aria-pressed="${favorite}">
               ${icons.heart}
             </button>
-            <button class="quick-view-trigger" type="button" data-action="quick-view" data-id="${product.id}">${icons.eye}<span>VisualizaÃ§Ã£o rÃ¡pida</span></button>
+            <button class="quick-view-trigger" type="button" data-action="quick-view" data-id="${product.id}">${icons.eye}<span>Visualização rápida</span></button>
           </div>
           <div class="product-info">
             <p>${product.categoryLabel}</p>
@@ -149,7 +146,7 @@ Output:
     }).join("");
 
     elements.empty.hidden = visible.length !== 0;
-    elements.status.textContent = `${visible.length} ${visible.length === 1 ? "peÃ§a encontrada" : "peÃ§as encontradas"}${state.favoritesOnly ? " nos favoritos" : ""}.`;
+    elements.status.textContent = `${visible.length} ${visible.length === 1 ? "peça encontrada" : "peças encontradas"}${state.favoritesOnly ? " nos favoritos" : ""}.`;
   }
 
   function setCategory(category) {
@@ -168,7 +165,7 @@ Output:
   function updateFilterSummary() {
     const categoryButton = document.querySelector(`.filter-pill[data-category="${state.category}"]`);
     const selectedOption = elements.sort.options[elements.sort.selectedIndex];
-    elements.filterSummary.textContent = `${categoryButton ? categoryButton.textContent : "Todos"} Â· ${selectedOption ? selectedOption.textContent : "Novidades"}`;
+    elements.filterSummary.textContent = `${categoryButton ? categoryButton.textContent : "Todos"} · ${selectedOption ? selectedOption.textContent : "Novidades"}`;
   }
 
   function toggleFavorite(productId) {
@@ -239,7 +236,7 @@ Output:
     saveStorage(storageKeys.cart, state.cart);
     updateCart();
     closeQuickView();
-    showToast(`${product.name} adicionado Ã  sacola.`);
+    showToast(`${product.name} adicionado à sacola.`);
     openCart();
   }
 
@@ -268,14 +265,14 @@ Output:
   function updateCart() {
     const validCart = getValidCart();
     if (!validCart.length) {
-      elements.cartItems.innerHTML = '<div class="cart-empty"><span>Ã</span><h3>Sua sacola estÃ¡ vazia</h3><p>Descubra a curadoria Ãria e salve seus looks preferidos.</p><button class="text-link" type="button" data-cart-action="continue">Ver novidades â†’</button></div>';
+      elements.cartItems.innerHTML = '<div class="cart-empty"><span>Á</span><h3>Sua sacola está vazia</h3><p>Descubra a curadoria Ária e salve seus looks preferidos.</p><button class="text-link" type="button" data-cart-action="continue">Ver novidades →</button></div>';
     } else {
       elements.cartItems.innerHTML = validCart.map(({ item, product, index }) => `
         <article class="cart-item">
           <img src="${product.image}" alt="">
           <div class="cart-item-copy">
             <div><h3>${product.name}</h3><button type="button" data-cart-action="remove" data-index="${index}" aria-label="Remover ${product.name}">${icons.trash}</button></div>
-            <p>Tam. ${item.size} <span>Â·</span> ${item.color}</p>
+            <p>Tam. ${item.size} <span>·</span> ${item.color}</p>
             <strong>${formatPrice(product.price)}</strong>
             <div class="quantity-control" aria-label="Quantidade de ${product.name}">
               <button type="button" data-cart-action="decrease" data-index="${index}" aria-label="Diminuir quantidade">${icons.minus}</button>
@@ -295,9 +292,9 @@ Output:
   }
 
   function createWhatsAppCheckoutUrl(validCart, subtotal) {
-    const lines = ["OlÃ¡! Quero finalizar meu pedido na Ãria Boutique:", ""];
+    const lines = ["Olá! Quero finalizar meu pedido na Ária Boutique:", ""];
     validCart.forEach(({ item, product }) => {
-      lines.push(`â€¢ ${item.quantity}x ${product.name} â€” Tam. ${item.size}, cor ${item.color} â€” ${formatPrice(product.price * item.quantity)}`);
+      lines.push(`• ${item.quantity}x ${product.name} — Tam. ${item.size}, cor ${item.color} — ${formatPrice(product.price * item.quantity)}`);
     });
     lines.push("", `Subtotal demonstrativo: ${formatPrice(subtotal)}`, "", "Gostaria de confirmar disponibilidade, entrega e forma de pagamento.");
     try {
@@ -312,7 +309,7 @@ Output:
   function createPromoWhatsAppUrl() {
     try {
       const url = new URL(config.whatsappUrl);
-      url.searchParams.set("text", "OlÃ¡! Vi a Sale da Ãria Boutique com atÃ© 50% off e quero conhecer as peÃ§as selecionadas disponÃ­veis.");
+      url.searchParams.set("text", "Olá! Vi a Sale da Ária Boutique com até 50% off e quero conhecer as peças selecionadas disponíveis.");
       return url.toString();
     } catch (error) {
       return config.whatsappUrl;
@@ -632,7 +629,7 @@ Output:
     elements.favoritesButton.setAttribute("aria-pressed", String(state.favoritesOnly));
     renderProducts();
     document.querySelector("#novidades").scrollIntoView({ behavior: "smooth" });
-    if (state.favoritesOnly && !state.favorites.size) showToast("VocÃª ainda nÃ£o salvou nenhum favorito.");
+    if (state.favoritesOnly && !state.favorites.size) showToast("Você ainda não salvou nenhum favorito.");
   });
 
   elements.clearFilters.addEventListener("click", () => {
@@ -691,7 +688,7 @@ Output:
     const size = formData.get("size");
     const color = formData.get("color");
     if (!size || !color) {
-      showToast("Escolha o tamanho e a cor da peÃ§a.");
+      showToast("Escolha o tamanho e a cor da peça.");
       return;
     }
     addToCart(state.activeProduct, size, color);
@@ -713,7 +710,7 @@ Output:
   elements.checkoutButton.addEventListener("click", (event) => {
     if (!getValidCart().length) {
       event.preventDefault();
-      showToast("Adicione pelo menos uma peÃ§a Ã  sacola.");
+      showToast("Adicione pelo menos uma peça à sacola.");
     }
   });
 
@@ -745,4 +742,3 @@ Output:
   updateCart();
   window.addEventListener("load", openPromo, { once: true });
 })();
-
