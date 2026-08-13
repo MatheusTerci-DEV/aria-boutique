@@ -1,3 +1,6 @@
+Exit code: 0
+Wall time: 2.6 seconds
+Output:
 (function () {
   "use strict";
 
@@ -91,7 +94,7 @@
     try {
       localStorage.setItem(key, JSON.stringify(value));
     } catch (error) {
-      showToast("Não foi possível salvar a seleção neste navegador.");
+      showToast("NÃ£o foi possÃ­vel salvar a seleÃ§Ã£o neste navegador.");
     }
   }
 
@@ -127,14 +130,14 @@
       return `
         <article class="product-card" style="--card-index:${index}">
           <div class="product-media">
-            <button class="product-image-button" type="button" data-action="quick-view" data-id="${product.id}" aria-label="Visualização rápida de ${product.name}">
+            <button class="product-image-button" type="button" data-action="quick-view" data-id="${product.id}" aria-label="VisualizaÃ§Ã£o rÃ¡pida de ${product.name}">
               <img src="${product.image}" alt="${product.alt}" loading="${index > 3 ? "lazy" : "eager"}" style="--object-position:${product.position || "center top"}">
             </button>
             <span class="product-badge">Novo</span>
             <button class="favorite-button${favorite ? " is-favorite" : ""}" type="button" data-action="favorite" data-id="${product.id}" aria-label="${favorite ? "Remover" : "Adicionar"} ${product.name} ${favorite ? "dos" : "aos"} favoritos" aria-pressed="${favorite}">
               ${icons.heart}
             </button>
-            <button class="quick-view-trigger" type="button" data-action="quick-view" data-id="${product.id}">${icons.eye}<span>Visualização rápida</span></button>
+            <button class="quick-view-trigger" type="button" data-action="quick-view" data-id="${product.id}">${icons.eye}<span>VisualizaÃ§Ã£o rÃ¡pida</span></button>
           </div>
           <div class="product-info">
             <p>${product.categoryLabel}</p>
@@ -146,7 +149,7 @@
     }).join("");
 
     elements.empty.hidden = visible.length !== 0;
-    elements.status.textContent = `${visible.length} ${visible.length === 1 ? "peça encontrada" : "peças encontradas"}${state.favoritesOnly ? " nos favoritos" : ""}.`;
+    elements.status.textContent = `${visible.length} ${visible.length === 1 ? "peÃ§a encontrada" : "peÃ§as encontradas"}${state.favoritesOnly ? " nos favoritos" : ""}.`;
   }
 
   function setCategory(category) {
@@ -165,7 +168,7 @@
   function updateFilterSummary() {
     const categoryButton = document.querySelector(`.filter-pill[data-category="${state.category}"]`);
     const selectedOption = elements.sort.options[elements.sort.selectedIndex];
-    elements.filterSummary.textContent = `${categoryButton ? categoryButton.textContent : "Todos"} · ${selectedOption ? selectedOption.textContent : "Novidades"}`;
+    elements.filterSummary.textContent = `${categoryButton ? categoryButton.textContent : "Todos"} Â· ${selectedOption ? selectedOption.textContent : "Novidades"}`;
   }
 
   function toggleFavorite(productId) {
@@ -236,7 +239,7 @@
     saveStorage(storageKeys.cart, state.cart);
     updateCart();
     closeQuickView();
-    showToast(`${product.name} adicionado à sacola.`);
+    showToast(`${product.name} adicionado Ã  sacola.`);
     openCart();
   }
 
@@ -265,14 +268,14 @@
   function updateCart() {
     const validCart = getValidCart();
     if (!validCart.length) {
-      elements.cartItems.innerHTML = '<div class="cart-empty"><span>Á</span><h3>Sua sacola está vazia</h3><p>Descubra a curadoria Ária e salve seus looks preferidos.</p><button class="text-link" type="button" data-cart-action="continue">Ver novidades →</button></div>';
+      elements.cartItems.innerHTML = '<div class="cart-empty"><span>Ã</span><h3>Sua sacola estÃ¡ vazia</h3><p>Descubra a curadoria Ãria e salve seus looks preferidos.</p><button class="text-link" type="button" data-cart-action="continue">Ver novidades â†’</button></div>';
     } else {
       elements.cartItems.innerHTML = validCart.map(({ item, product, index }) => `
         <article class="cart-item">
           <img src="${product.image}" alt="">
           <div class="cart-item-copy">
             <div><h3>${product.name}</h3><button type="button" data-cart-action="remove" data-index="${index}" aria-label="Remover ${product.name}">${icons.trash}</button></div>
-            <p>Tam. ${item.size} <span>·</span> ${item.color}</p>
+            <p>Tam. ${item.size} <span>Â·</span> ${item.color}</p>
             <strong>${formatPrice(product.price)}</strong>
             <div class="quantity-control" aria-label="Quantidade de ${product.name}">
               <button type="button" data-cart-action="decrease" data-index="${index}" aria-label="Diminuir quantidade">${icons.minus}</button>
@@ -292,9 +295,9 @@
   }
 
   function createWhatsAppCheckoutUrl(validCart, subtotal) {
-    const lines = ["Olá! Quero finalizar meu pedido na Ária Boutique:", ""];
+    const lines = ["OlÃ¡! Quero finalizar meu pedido na Ãria Boutique:", ""];
     validCart.forEach(({ item, product }) => {
-      lines.push(`• ${item.quantity}x ${product.name} — Tam. ${item.size}, cor ${item.color} — ${formatPrice(product.price * item.quantity)}`);
+      lines.push(`â€¢ ${item.quantity}x ${product.name} â€” Tam. ${item.size}, cor ${item.color} â€” ${formatPrice(product.price * item.quantity)}`);
     });
     lines.push("", `Subtotal demonstrativo: ${formatPrice(subtotal)}`, "", "Gostaria de confirmar disponibilidade, entrega e forma de pagamento.");
     try {
@@ -309,7 +312,7 @@
   function createPromoWhatsAppUrl() {
     try {
       const url = new URL(config.whatsappUrl);
-      url.searchParams.set("text", "Olá! Vi a Sale da Ária Boutique com até 50% off e quero conhecer as peças selecionadas disponíveis.");
+      url.searchParams.set("text", "OlÃ¡! Vi a Sale da Ãria Boutique com atÃ© 50% off e quero conhecer as peÃ§as selecionadas disponÃ­veis.");
       return url.toString();
     } catch (error) {
       return config.whatsappUrl;
@@ -323,7 +326,7 @@
     lockPage(state.promoScrollY);
     elements.promo.showModal();
     document.body.classList.add("promo-open");
-    window.setTimeout(() => elements.promoClose.focus({ preventScroll: true }), 50);
+    window.setTimeout(() => elements.promo.focus({ preventScroll: true }), 50);
   }
 
   function closePromo() {
@@ -511,6 +514,78 @@
     if (elements.promoWhatsapp) elements.promoWhatsapp.href = createPromoWhatsAppUrl();
   }
 
+  const internalLinks = [...document.querySelectorAll('a[href^="#"]')].filter((link) => link.getAttribute("href").length > 1);
+  const primaryNavLinks = [...elements.primaryNav.querySelectorAll('a[href^="#"]')];
+
+  function getInternalTarget(link) {
+    const id = decodeURIComponent(link.hash.slice(1));
+    return id ? document.getElementById(id) : null;
+  }
+
+  function updateActiveNavigation(id) {
+    primaryNavLinks.forEach((link) => {
+      const active = link.hash === `#${id}`;
+      if (active) link.setAttribute("aria-current", "location");
+      else link.removeAttribute("aria-current");
+    });
+  }
+
+  function navigateToSection(link) {
+    const target = getInternalTarget(link);
+    if (!target) return false;
+    const id = target.id;
+    const desktopScrollTargets = {
+      novidades: ".products-heading",
+      ocasioes: ".section-heading",
+      editorial: ".editorial-copy",
+      looks: ".looks-heading",
+      loja: ".store-copy"
+    };
+    const desktopTarget = window.matchMedia("(min-width: 64rem)").matches && desktopScrollTargets[id]
+      ? target.querySelector(desktopScrollTargets[id])
+      : null;
+    const scrollTarget = desktopTarget || target;
+    if (link.closest("#primary-nav")) closeMenu(false);
+    scrollTarget.scrollIntoView({ behavior: "smooth", block: "start" });
+    updateActiveNavigation(id);
+    if (window.location.hash !== `#${id}`) history.pushState(null, "", `#${id}`);
+    return true;
+  }
+
+  internalLinks.forEach((link) => {
+    link.addEventListener("click", (event) => {
+      if (!getInternalTarget(link)) return;
+      event.preventDefault();
+      navigateToSection(link);
+    });
+  });
+
+  function syncActiveNavigation() {
+    const headerBottom = document.querySelector(".site-header").getBoundingClientRect().bottom;
+    const activationLine = headerBottom + Math.min(160, window.innerHeight * .28);
+    let activeTarget = null;
+    primaryNavLinks.forEach((link) => {
+      const target = getInternalTarget(link);
+      if (target && target.getBoundingClientRect().top <= activationLine) activeTarget = target;
+    });
+    primaryNavLinks.forEach((link) => link.removeAttribute("aria-current"));
+    if (activeTarget) updateActiveNavigation(activeTarget.id);
+  }
+
+  let navigationFrame;
+  function requestNavigationSync() {
+    window.cancelAnimationFrame(navigationFrame);
+    navigationFrame = window.requestAnimationFrame(syncActiveNavigation);
+  }
+
+  window.addEventListener("scroll", requestNavigationSync, { passive: true });
+  window.addEventListener("resize", requestNavigationSync);
+
+  window.addEventListener("hashchange", () => {
+    const target = document.getElementById(decodeURIComponent(window.location.hash.slice(1)));
+    if (target) updateActiveNavigation(target.id);
+  });
+
   elements.grid.addEventListener("click", (event) => {
     const trigger = event.target.closest("[data-action]");
     if (!trigger) return;
@@ -557,7 +632,7 @@
     elements.favoritesButton.setAttribute("aria-pressed", String(state.favoritesOnly));
     renderProducts();
     document.querySelector("#novidades").scrollIntoView({ behavior: "smooth" });
-    if (state.favoritesOnly && !state.favorites.size) showToast("Você ainda não salvou nenhum favorito.");
+    if (state.favoritesOnly && !state.favorites.size) showToast("VocÃª ainda nÃ£o salvou nenhum favorito.");
   });
 
   elements.clearFilters.addEventListener("click", () => {
@@ -574,7 +649,7 @@
   elements.menuToggle.addEventListener("pointerdown", () => { state.pendingMenuScrollY = window.scrollY; }, true);
   elements.menuClose.addEventListener("click", () => closeMenu());
   elements.navOverlay.addEventListener("click", () => closeMenu());
-  elements.primaryNav.addEventListener("click", (event) => { if (event.target.closest("a")) closeMenu(); });
+  elements.primaryNav.addEventListener("click", (event) => { if (event.target.closest("a")) closeMenu(false); });
   elements.filterOpen.addEventListener("click", openFilter);
   elements.filterOpen.addEventListener("pointerdown", () => { state.pendingFilterScrollY = window.scrollY; }, true);
   elements.filterClose.addEventListener("click", () => closeFilter());
@@ -616,7 +691,7 @@
     const size = formData.get("size");
     const color = formData.get("color");
     if (!size || !color) {
-      showToast("Escolha o tamanho e a cor da peça.");
+      showToast("Escolha o tamanho e a cor da peÃ§a.");
       return;
     }
     addToCart(state.activeProduct, size, color);
@@ -638,7 +713,7 @@
   elements.checkoutButton.addEventListener("click", (event) => {
     if (!getValidCart().length) {
       event.preventDefault();
-      showToast("Adicione pelo menos uma peça à sacola.");
+      showToast("Adicione pelo menos uma peÃ§a Ã  sacola.");
     }
   });
 
@@ -670,3 +745,4 @@
   updateCart();
   window.addEventListener("load", openPromo, { once: true });
 })();
+
